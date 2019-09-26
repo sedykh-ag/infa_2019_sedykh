@@ -9,12 +9,6 @@ def ellipse(x, y, A, B):
 	polygon(a)
 	print(a)
 
-ass = []
-
-def coord(event):
-	ass.append((event.x, event.y))
-	print(ass)
-
 brushColor("black")
 penSize(0.1)
 windowSize(1000, 1000)
@@ -114,7 +108,5 @@ polyline([(199, 551), (193, 549), (190, 549), (183, 550), (182, 551), (181, 554)
 penColor("grey")
 penSize(2)
 polyline([(148, 563), (138, 558), (134, 557), (130, 557), (117, 557), (113, 557), (105, 558), (97, 561), (94, 563), (89, 569), (77, 578), (71, 581), (61, 581), (52, 581), (48, 581), (44, 573)])
-
-onMouseDown(coord)
 
 run()
