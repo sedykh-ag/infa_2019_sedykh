@@ -7,7 +7,6 @@ def ellipse(x, y, A, B):
 	for i in range(n):
 		a.append((x+A*m.cos(2*m.pi*i/n), y+B*m.sin(2*m.pi*i/n)))
 	polygon(a)
-	print(a)
 
 brushColor("black")
 penSize(0.1)
