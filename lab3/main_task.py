@@ -10,7 +10,7 @@ def ellipse(x, y, A, B):
 
 brushColor("black")
 penSize(0.1)
-windowSize(1000, 1000)
+windowSize(400, 600)
 canvasSize(400, 600)
 
 rectangle(0,0,400,600)
@@ -91,8 +91,7 @@ polygon([(41, 368), (18, 383), (2, 347)])
 brushColor("black")
 line(61, 445-4, 61, 452)
 
-#ellipse(351, 438, 80, 23)
-brushColor("#999999")
+brsuhColor("#999999")
 circle(184, 546, 40)
 
 

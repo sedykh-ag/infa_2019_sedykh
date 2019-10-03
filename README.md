@@ -1,3 +1,1 @@
-# infa_2019_sedykh
-Repository for python lessons
-onetwothree
+[![Build Status](https://travis-ci.com/sedykh-ag/infa_2019_sedykh.svg?branch=master)](https://travis-ci.com/sedykh-ag/infa_2019_sedykh)
