@@ -10,10 +10,8 @@ def ellipse(x0, y0, A, B, angle, size):
         x = x0 + A * m.cos(2 * m.pi * i / n) * size
         y = y0 + B * m.sin(2 * m.pi * i / n) * size
 
-        x1 = x0 + (x - x0) * m.cos(angle) -\
-             (y - y0) * m.sin(angle)
-        y1 = y0 + (y - y0) * m.cos(angle) \
-             + (x - x0) * m.sin(angle)
+        x1 = x0 + (x - x0) * m.cos(angle) - (y - y0) * m.sin(angle)
+        y1 = y0 + (y - y0) * m.cos(angle) + (x - x0) * m.sin(angle)
 
         a.append((x1, y1))
 
