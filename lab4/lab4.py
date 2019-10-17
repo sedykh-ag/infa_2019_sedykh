@@ -26,8 +26,8 @@ class Shape:
 
     def draw(self):
         self.obj = self.canvas.create_oval(self.x - self.r, self.y - self.r,
-                                self.x + self.r, self.y + self.r,
-                                fill=self.color, width=0)
+                                           self.x + self.r, self.y + self.r,
+                                           fill=self.color, width=0)
 
     def move(self):
         root.after(30, self.move)
@@ -38,7 +38,6 @@ class Shape:
 
 def new_shape():
     shape = Shape(canv, choice(colors), choice(shapes))
-    #shape.draw()
     shape.move()
     root.after(1000, new_shape)
 
