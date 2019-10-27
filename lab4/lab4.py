@@ -126,7 +126,6 @@ class Ball(IRenderable, IIntersectable, IClickable):
         c = "#{:06x}".format(
             (self.color[0] << 16) + (self.color[1] << 8) + self.color[2])
         self.a += 0.01
-        cos = math.cos(self.a)
         """
         self.color[0] += round(2 * cos)
         self.color[1] -= round(3 * cos)
@@ -303,7 +302,9 @@ class Game:
         point = Vector2d(event.x, event.y)
         for key in self.objects:
             obj = self.objects[key]
-            if isinstance(obj, IIntersectable) and isinstance(obj, IClickable) and obj.contains(point):
+            if isinstance(obj, IIntersectable) \
+                    and isinstance(obj, IClickable) \
+                    and obj.contains(point):
                 obj.clicked()
 
     def toggle_pause(self, *args):
