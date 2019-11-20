@@ -24,6 +24,8 @@ def tuple_to_array(given):
 
 
 """Ball"""
+
+
 class Ball:
     def __init__(self, storage, x, y):
         """ Конструктор класса ball
@@ -41,28 +43,19 @@ class Ball:
         self.vy = 0
         self.gy = -2
         self.color = choice(['blue', 'green', 'red', 'brown'])
-        self.id = canv.create_polygon(
-            get_polygon_coords(self.r, self.vertexes_count, self.x, self.y),
-            fill=self.color)
-        self.type = 0 # 0 if created by God, 1 if created by explosion
+        self.id = canv.create_polygon(get_polygon_coords(
+            self.r, self.vertexes_count, self.x, self.y),
+                                      fill=self.color)
+        self.type = 0  # 0 if created by God, 1 if created by explosion
 
         self.live = 80
 
-
     def set_coords(self):
-        vertexes = get_polygon_coords(
-            self.r, self.vertexes_count, self.x, self.y)
+        vertexes = get_polygon_coords(self.r, self.vertexes_count, self.x,
+                                      self.y)
         canv.coords(self.id, tuple_to_array(vertexes))
 
-
     def move(self):
-        """Переместить мяч по прошествии единицы времени.
-
-        Метод описывает перемещение мяча за один кадр перерисовки. То есть, обновляет значения
-        self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
-        и стен по краям окна (размер окна 800х600).
-        """
-
         friction_x = 1
         friction_y = 0.5
         self.vy += self.gy
@@ -92,21 +85,12 @@ class Ball:
 
         self.set_coords()
 
-
     def hittest(self, obj):
-        """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
-
-        Args:
-            obj: Обьект, с которым проверяется столкновение.
-        Returns:
-            Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
-        """
         if math.hypot(self.x - obj.x, self.y - obj.y) <= (self.r + obj.r):
             canv.delete(self.id)
             return True
         else:
             return False
-
 
     def explode(self):  # explosion
         canv.delete(self.id)
@@ -123,6 +107,8 @@ class Ball:
 
 
 """Gun"""
+
+
 class Gun:
     def __init__(self, storage):
         self.x = 20
@@ -132,43 +118,38 @@ class Gun:
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
-        self.id = canv.create_line(self.x, self.y, self.x + 30,
-                                   self.y - 30, width=7)
-
+        self.id = canv.create_line(self.x,
+                                   self.y,
+                                   self.x + 30,
+                                   self.y - 30,
+                                   width=7)
 
     def move(self, x, y):
         self.x += x
         self.y += y
-        canv.coords(self.id,
-                    self.x, self.y,
+        canv.coords(self.id, self.x, self.y,
                     self.x + max(self.f2_power, 20) * math.cos(self.an),
-                    self.y + max(self.f2_power, 20) * math.sin(self.an)
-                    )
+                    self.y + max(self.f2_power, 20) * math.sin(self.an))
         canv.update()
 
     def fire2_start(self, event):
         self.f2_on = 1
 
     def fire2_end(self, event):
-        """Выстрел мячом.
-
-        Происходит при отпускании кнопки мыши.
-        Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
-        """
         storage.bullet += 1
         new_ball = Ball(self.storage, self.x, self.y)
         new_ball.r += 5
         if event.x < self.x:
-            self.an = math.atan((event.y - new_ball.y) /
-                                (event.x - new_ball.x))
+            self.an = math.atan(
+                (event.y - new_ball.y) / (event.x - new_ball.x))
         elif event.x > self.x:
-            self.an = - math.pi + math.atan((event.y - new_ball.y) /
-                                            (event.x - new_ball.x))
+            self.an = -math.pi + math.atan(
+                (event.y - new_ball.y) / (event.x - new_ball.x))
 
-        new_ball.vx =  self.f2_power * math.cos(self.an)
-        new_ball.vy = - self.f2_power * math.sin(self.an)
+        new_ball.vx = self.f2_power * math.cos(self.an)
+        new_ball.vy = -self.f2_power * math.sin(self.an)
 
-        new_ball.vx = - self.f2_power * math.cos(self.an)
+        new_ball.vx = -self.f2_power * math.cos(self.an)
         new_ball.vy = self.f2_power * math.sin(self.an)
 
         self.an = self.an - math.pi
@@ -183,16 +164,15 @@ class Gun:
             if event.x > self.x:
                 self.an = math.atan((event.y - self.y) / (event.x - self.x))
             elif event.x < self.x:
-                self.an = - (math.pi - math.atan((event.y - self.y) /
-                                                 (event.x - self.x)))
+                self.an = -(math.pi - math.atan(
+                    (event.y - self.y) / (event.x - self.x)))
         if self.f2_on:
             canv.itemconfig(self.id, fill='orange')
         else:
             canv.itemconfig(self.id, fill='black')
         canv.coords(self.id, self.x, self.y,
                     self.x + max(self.f2_power, 20) * math.cos(self.an),
-                    self.y + max(self.f2_power, 20) * math.sin(self.an)
-                    )
+                    self.y + max(self.f2_power, 20) * math.sin(self.an))
 
     def power_up(self):
         if self.f2_on:
@@ -202,7 +182,10 @@ class Gun:
         else:
             canv.itemconfig(self.id, fill='black')
 
+
 """Target"""
+
+
 class Target:
     def __init__(self, storage):
         self.vx = 0
@@ -217,12 +200,11 @@ class Target:
         self.vertexes = None
         self.color = 'red'
 
-        self.id = canv.create_polygon(
-            get_polygon_coords(self.r, self.vertexes_count, self.x, self.y),
-            fill=self.color)
+        self.id = canv.create_polygon(get_polygon_coords(
+            self.r, self.vertexes_count, self.x, self.y),
+                                      fill=self.color)
 
         self.new_target()
-
 
     def new_target(self):
         """ Инициализация новой цели. """
@@ -232,8 +214,8 @@ class Target:
         self.vy = rnd(-5, 5)
         self.r = rnd(20, 30)
         self.vertexes_count = rnd(3, 7)
-        self.vertexes = get_polygon_coords(self.r, self.vertexes_count,
-                                           self.x, self.y)
+        self.vertexes = get_polygon_coords(self.r, self.vertexes_count, self.x,
+                                           self.y)
         self.vertexes = tuple_to_array(self.vertexes)
         canv.coords(self.id, self.vertexes)
         canv.itemconfig(self.id, fill=self.color)
@@ -267,7 +249,6 @@ class Target:
             elif self.x - self.r <= 0:
                 self.x = self.r
                 self.vx = -self.vx
-
             """Проверка выхода за границу y"""
             if self.y + self.r >= 500:
                 self.y -= (self.y + self.r) - 500
@@ -287,7 +268,10 @@ class Target:
             canv.coords(self.id, vertexes)
             canv.update()
 
+
 """Storage"""
+
+
 class Storage:
     def __init__(self):
         self.screen1 = canv.create_text(400, 300, text='', font='28')
@@ -297,6 +281,7 @@ class Storage:
         self.targets = []
         self.points = 0
         self.id_points = canv.create_text(30, 30, text=self.points, font='28')
+
 
 def new_game(storage, event=''):
     for b in storage.balls:
@@ -350,8 +335,8 @@ def new_game(storage, event=''):
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1>', '')
                 canv.itemconfig(storage.screen1,
-                                text='Вы уничтожили цели за ' + str(
-                                    storage.bullet) + ' выстрелов')
+                                text='Вы уничтожили цели за ' +
+                                str(storage.bullet) + ' выстрелов')
                 canv.update()
                 time.sleep(2)
 
@@ -364,6 +349,7 @@ def new_game(storage, event=''):
     canv.update()
     new_game(storage)
 
+
 """Main sequence"""
 
 root = tk.Tk()
@@ -372,7 +358,7 @@ root.geometry('800x600')
 canv = tk.Canvas(root, bg='white')
 canv.pack(fill=tk.BOTH, expand=1)
 
-storage = Storage() # initialization
+storage = Storage()  # initialization
 storage.g1 = Gun(storage)
 target1 = Target(storage)
 target2 = Target(storage)
