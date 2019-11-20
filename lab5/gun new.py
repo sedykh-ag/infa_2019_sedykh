@@ -1,5 +1,5 @@
 # coding=utf-8
-from random import randrange as rnd, choice, uniform
+from random import randrange as rnd, choice
 import tkinter as tk
 import math
 import time
@@ -12,6 +12,7 @@ def get_polygon_coords(R, n, x0=300, y0=300):
         y = y0 + R * math.sin((2 * math.pi * i) / n)
         vertex.append((x, y))
     return vertex
+
 
 def tuple_to_array(given):
     array = []
@@ -47,10 +48,12 @@ class Ball:
 
         self.live = 80
 
+
     def set_coords(self):
         vertexes = get_polygon_coords(
             self.r, self.vertexes_count, self.x, self.y)
         canv.coords(self.id, tuple_to_array(vertexes))
+
 
     def move(self):
         """Переместить мяч по прошествии единицы времени.
@@ -89,6 +92,7 @@ class Ball:
 
         self.set_coords()
 
+
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
 
@@ -103,6 +107,7 @@ class Ball:
         else:
             return False
 
+
     def explode(self):  # explosion
         canv.delete(self.id)
         n = rnd(2, 7)
@@ -116,6 +121,7 @@ class Ball:
             particle_balls[i].vy = (self.vy / 2) + rnd(-5, 5)
             self.storage.balls += [particle_balls[i]]
 
+
 """Gun"""
 class Gun:
     def __init__(self, storage):
@@ -128,6 +134,7 @@ class Gun:
         self.an = 1
         self.id = canv.create_line(self.x, self.y, self.x + 30,
                                    self.y - 30, width=7)
+
 
     def move(self, x, y):
         self.x += x
