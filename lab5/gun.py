@@ -96,7 +96,7 @@ class Ball:
         canv.delete(self.id)
         n = rnd(2, 7)
         particle_balls = [
-            Ball(self.storage, self.x + rnd(5, 10), self.y + rnd(5, 10))\
+            Ball(self.storage, self.x + rnd(5, 10), self.y + rnd(5, 10))
             for _ in range(n)]
         for i in range(n):
             particle_balls[i].type = 1
@@ -221,8 +221,6 @@ class Target:
         canv.itemconfig(self.id, fill=self.color)
 
     def remove(self):
-        #for i in self.vertexes:
-        #    i = -10
         self.x = 10
         self.y = -10
         self.r = 0
@@ -230,8 +228,6 @@ class Target:
 
     def hit(self, points=1):
         """Попадание шарика в цель."""
-        #for i in self.vertexes:
-        #    i = -10
         canv.coords(self.id, -10, -10, -10, -10)
         self.x = 10
         self.y = -10
